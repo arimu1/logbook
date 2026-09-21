@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
 import org.springframework.security.web.SecurityFilterChain;
 import org.zalando.logbook.Logbook;
+import org.zalando.logbook.servlet.AsyncOnCompleteListenerWrapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -11,7 +12,8 @@ import static org.mockito.Mockito.mock;
 class SecurityFilterTest {
 
     private final WebApplicationContextRunner contextRunner = new WebApplicationContextRunner()
-            .withUserConfiguration(LogbookAutoConfiguration.JakartaSecurityServletFilterConfiguration.class);
+            .withUserConfiguration(LogbookAutoConfiguration.JakartaSecurityServletFilterConfiguration.class)
+            .withBean(AsyncOnCompleteListenerWrapper.class, AsyncOnCompleteListenerWrapper::identity);
 
     @Test
     void shouldRegisterSecureLogbookFilterWhenSecurityFilterChainIsPresent() {
